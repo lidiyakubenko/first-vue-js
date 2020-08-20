@@ -1,0 +1,36 @@
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
+
+Vue.use(Vuetify);
+
+export default new Vuetify({
+  theme: {
+    options: {
+      customProperties: true
+    },
+    themes: {
+      light: {
+        primary: "#B394C8",
+        secondary: "#d907a4",
+        button: "#5E317C",
+
+        accent: "#82B1FF",
+        error: "#FF5252",
+        info: "#2196F3",
+        success: "#4CAF50",
+        warning: "#FFC107"
+      },
+      dark: {
+        primary: "#545454",
+        secondary: "#804d1b",
+        button: "#000",
+
+        accent: "#82B1FF",
+        error: "#FF5252",
+        info: "#2196F3",
+        success: "#4CAF50",
+        warning: "#FFC107"
+      }
+    }
+  }
+});
