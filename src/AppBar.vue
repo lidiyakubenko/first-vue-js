@@ -3,7 +3,9 @@
     <v-app-bar app color="primary" dark>
       <v-btn color="button" class="app_btn" to="/">Home</v-btn>
       <v-btn color="button" class="app_btn" to="/about">About</v-btn>
-
+      <v-btn color="button" class="app_btn" to="/currency-pairs"
+        >Currency Pairs</v-btn
+      >
       <v-spacer></v-spacer>
 
       <v-switch
