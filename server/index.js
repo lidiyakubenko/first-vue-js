@@ -1,6 +1,7 @@
 var express = require("express");
 var axios = require("axios");
 var app = express();
+require("dotenv").config();
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
@@ -22,6 +23,35 @@ app.get("/test", (req, res) => {
   (async () => {
     try {
       const result = await axios.get(pairsUSD);
+
+      res.send(result.data);
+    } catch (e) {
+      res.send(e);
+    }
+  })();
+});
+
+app.get("/weatherInfo", (req, res) => {
+  (async () => {
+    try {
+      const result = await axios.get(
+        "https://community-open-weather-map.p.rapidapi.com/weather",
+        {
+          headers: {
+            "content-type": "application/octet-stream",
+            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+            "x-rapidapi-key": process.env["API_WEATHER_KEY"],
+            useQueryString: true
+          },
+          params: {
+            callback: "test",
+            id: "2172797",
+            units: "%22metric%22 or %22imperial%22",
+            mode: "xml%2C html",
+            q: "Moscow"
+          }
+        }
+      );
 
       res.send(result.data);
     } catch (e) {
