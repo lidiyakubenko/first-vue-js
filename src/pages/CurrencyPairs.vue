@@ -1,58 +1,72 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col cols="12">
-        <v-row align="center" justify="center">
-          <div v-if="pairs">
-            {{ formattedDate }}
-            <div v-for="(value, key) in formattedPairs" :key="key">
-              {{ key }} {{ value.rate }}
-            </div>
-          </div>
-          <div v-else>
-            <v-progress-circular
-              :size="70"
-              :width="7"
-              color="secondary"
-              indeterminate
-            ></v-progress-circular>
-          </div>
+    <v-row align="center" justify="center">
+      <v-col v-if="pairs" cols="12">
+        <v-row align="start" justify="start">
+          <Card
+            v-for="(pairInfo, currency) in pairs"
+            :key="currency"
+            v-bind:pairInfo="pairInfo"
+          ></Card>
         </v-row>
       </v-col>
+      <v-app v-else>
+        <v-progress-circular
+          :size="70"
+          :width="7"
+          color="secondary"
+          indeterminate
+        ></v-progress-circular>
+      </v-app>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import Card from "../components/CurrencyPairs/Card";
 import getPairs from "../api/get-pairs";
+import CURRENCY_MAP from "../constants/currency-map";
 
 export default {
   name: "Currency Pairs",
+  components: {
+    Card
+  },
   data: () => ({
-    currentDate: new Date(),
     pairs: null
   }),
   created() {
     (async () => {
-      this.pairs = await getPairs();
+      const result = await getPairs();
+      this.pairs = this.formatPairs(result);
     })();
   },
-  computed: {
-    formattedDate() {
-      const day = ("0" + this.currentDate.getDate()).slice(-2);
-      const month = ("0" + (this.currentDate.getMonth() + 1)).slice(-2);
-      const year = this.currentDate.getFullYear();
+  computed: {},
+  methods: {
+    formatPairs(pairs) {
+      return Object.keys(pairs).reduce((accum, key) => {
+        const rate = pairs[key].rate.toFixed(2);
 
-      return `${day}-${month}-${year}`;
-    },
-    formattedPairs() {
-      return Object.keys(this.pairs).reduce((accum, key) => {
-        const rate = this.pairs[key].rate.toFixed(2);
+        const firstCurrName = key.substring(0, 3);
+        const secondCurrName = key.substring(3);
 
-        return { ...accum, ...{ [key]: { rate } } };
+        const firstCurrency = {
+          short: firstCurrName,
+          full: CURRENCY_MAP[firstCurrName].name,
+          image: CURRENCY_MAP[firstCurrName].image
+        };
+        const secondCurrency = {
+          short: secondCurrName,
+          full: CURRENCY_MAP[secondCurrName].name,
+          image: CURRENCY_MAP[secondCurrName].image
+        };
+
+        return {
+          ...accum,
+          ...{ [key]: { rate, firstCurrency, secondCurrency } }
+        };
       }, {});
     }
-  },
-  methods: {}
+  }
 };
 </script>
