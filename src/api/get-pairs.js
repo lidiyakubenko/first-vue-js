@@ -4,7 +4,7 @@ const getPairs = async () => {
   let pairs = {};
 
   try {
-    const result = await axios.get("/test");
+    const result = await axios.get("/currency-pairs");
     pairs = result.data.rates;
   } catch (e) {
     console.log(e);

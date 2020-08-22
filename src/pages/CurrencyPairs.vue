@@ -24,8 +24,8 @@
 
 <script>
 import Card from "../components/CurrencyPairs/Card";
-import getPairs from "../api/get-pairs";
 import CURRENCY_MAP from "../constants/currency-map";
+import getPairs from "../api/get-pairs";
 
 export default {
   name: "Currency Pairs",

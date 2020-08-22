@@ -6,6 +6,7 @@
       <v-btn color="button" class="app_btn" to="/currency-pairs"
         >Currency Pairs</v-btn
       >
+      <v-btn color="button" class="app_btn" to="/weather">weather</v-btn>
       <v-spacer></v-spacer>
 
       <v-switch

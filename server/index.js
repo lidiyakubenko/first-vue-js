@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
 const pairsUSD =
   "https://www.freeforexapi.com/api/live?pairs=EURUSD,USDJPY,EURGBP,GBPUSD,AUDUSD,USDCHF,NZDUSD,USDCAD,USDZAR";
 
-app.get("/test", (req, res) => {
+app.get("/currency-pairs", (req, res) => {
   (async () => {
     try {
       const result = await axios.get(pairsUSD);
@@ -31,7 +31,7 @@ app.get("/test", (req, res) => {
   })();
 });
 
-app.get("/weatherInfo", (req, res) => {
+app.get("/weather", (req, res) => {
   (async () => {
     try {
       const result = await axios.get(
@@ -44,10 +44,8 @@ app.get("/weatherInfo", (req, res) => {
             useQueryString: true
           },
           params: {
-            callback: "test",
             id: "2172797",
             units: "%22metric%22 or %22imperial%22",
-            mode: "xml%2C html",
             q: "Moscow"
           }
         }

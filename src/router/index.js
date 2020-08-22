@@ -20,7 +20,15 @@ const routes = [
     path: "/currency-pairs",
     name: "Currency Pairs",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/CurrencyPairs.vue")
+      import(
+        /* webpackChunkName: "currency-pairs" */ "../pages/CurrencyPairs.vue"
+      )
+  },
+  {
+    path: "/weather",
+    name: "Weather",
+    component: () =>
+      import(/* webpackChunkName: "weather" */ "../pages/Weather.vue")
   }
 ];
 
