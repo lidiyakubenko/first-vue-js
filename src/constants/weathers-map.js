@@ -1,9 +1,10 @@
 import rainJpg from "../assets/weather/rain.jpg";
-import clearJpg from "../assets/weather/clear.jpg";
 import sunnyJpg from "../assets/weather/sunny.jpg";
 import snowJpeg from "../assets/weather/snow.jpeg";
+import cloudPng from "../assets/weather/cloud.png";
 import stormJpeg from "../assets/weather/storm.jpeg";
-import cloudlyJpeg from "../assets/weather/cloudly.jpeg";
+import clearJpg from "../assets/weather/clear_sky.jpg";
+import cloudAndSunnyJpeg from "../assets/weather/cloud_with_sun.jpg";
 
 const WEATHERS_MAP = {
   Rain: rainJpg,
@@ -11,7 +12,8 @@ const WEATHERS_MAP = {
   Snow: snowJpeg,
   Clear: clearJpg,
   Storm: stormJpeg,
-  Clouds: cloudlyJpeg
+  Clouds: cloudPng,
+  CloudsWithSun: cloudAndSunnyJpeg
 };
 
-export default WEATHERS_MAP
+export default WEATHERS_MAP;

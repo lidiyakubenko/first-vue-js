@@ -1,3 +1,4 @@
+var CITIES = require("../src/constants/cities");
 var express = require("express");
 var axios = require("axios");
 var app = express();
@@ -31,29 +32,57 @@ app.get("/currency-pairs", (req, res) => {
   })();
 });
 
-app.get("/weather", (req, res) => {
-  (async () => {
-    try {
-      const result = await axios.get(
-        "https://community-open-weather-map.p.rapidapi.com/weather",
-        {
-          headers: {
-            "content-type": "application/octet-stream",
-            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-            "x-rapidapi-key": process.env["API_WEATHER_KEY"],
-            useQueryString: true
-          },
-          params: {
-            id: "2172797",
-            units: "%22metric%22 or %22imperial%22",
-            q: "Moscow"
-          }
-        }
-      );
+const lastWeatherSearch = CITIES.reduce(
+  (accum, city) => ({ ...accum, [city]: [] }),
+  {}
+);
 
-      res.send(result.data);
-    } catch (e) {
-      res.send(e);
-    }
-  })();
+app.get("/weather/:city", (req, res) => {
+  const { city } = req.params;
+
+  if (!lastWeatherSearch[city]) {
+    res.status(500).send("there is no such city");
+  } else {
+    (async () => {
+      try {
+        const result = await axios.get(
+          "https://community-open-weather-map.p.rapidapi.com/weather",
+          {
+            headers: {
+              "content-type": "application/octet-stream",
+              "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+              "x-rapidapi-key": process.env["API_WEATHER_KEY"],
+              useQueryString: true
+            },
+            params: {
+              id: "2172797",
+              units: "%22metric%22 or %22imperial%22",
+              q: city
+            }
+          }
+        );
+
+        const { data } = result;
+        const { name } = data;
+        const arr = lastWeatherSearch[name];
+
+        if (arr && arr.length === 10) {
+          arr.shift();
+        }
+        if (!arr) {
+          lastWeatherSearch[name] = [];
+        }
+
+        const lastTemps = arr.map(({ dt, main }) => ({
+          temp: main.temp,
+          timestamp: dt
+        }));
+
+        arr.push(data);
+        res.send({ ...data, lastTemps });
+      } catch (e) {
+        res.status(500).send(e);
+      }
+    })();
+  }
 });
