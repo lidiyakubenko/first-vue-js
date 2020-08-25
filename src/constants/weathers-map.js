@@ -6,6 +6,8 @@ import stormJpeg from "../assets/weather/storm.jpeg";
 import clearJpg from "../assets/weather/clear_sky.jpg";
 import cloudAndSunnyJpeg from "../assets/weather/cloud_with_sun.jpg";
 
+import defaultImage from "../assets/default.jpg";
+
 const WEATHERS_MAP = {
   Rain: rainJpg,
   Sun: sunnyJpg,
@@ -13,7 +15,9 @@ const WEATHERS_MAP = {
   Clear: clearJpg,
   Storm: stormJpeg,
   Clouds: cloudPng,
-  CloudsWithSun: cloudAndSunnyJpeg
+  CloudsWithSun: cloudAndSunnyJpeg,
+
+  default: defaultImage
 };
 
 export default WEATHERS_MAP;
